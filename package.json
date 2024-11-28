@@ -1,0 +1,14 @@
+{
+  "name": "dynamic-3d-plots",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lasse Schlör",
+  "private": true,
+  "dependencies": {
+    "three": "^0.170.0"
+  }
+}
