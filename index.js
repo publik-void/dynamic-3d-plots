@@ -273,17 +273,21 @@ function trajectoriesAsInstancedMeshes(geometry, trajectoryData,
 }
 
 export function attachTrajectoryPlot(container, trajectoryData, opts = {}) {
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
   const scene = new THREE.Scene();
   if (opts.backgroundColor != null) {
     scene.background = new THREE.Color(opts.backgroundColor);
   }
   const camera = new THREE.PerspectiveCamera(
-    75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    75, width / height, 0.1, 1000);
 
   let change = false;
 
+  // const renderer = new THREE.WebGLRenderer({alpha: true});
   const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
-  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setSize(width, height);
 
   function animate() {
     if (change) {
