@@ -286,7 +286,9 @@ export function attachTrajectoryPlot(container, trajectoryData, opts = {}) {
   let change = false;
 
   // const renderer = new THREE.WebGLRenderer({alpha: true});
-  const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+  // const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+  const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true,
+    preserveDrawingBuffer: true});
   renderer.setSize(width, height);
 
   function animate() {
@@ -475,7 +477,52 @@ export function attachTrajectoryPlot(container, trajectoryData, opts = {}) {
 
   container.oncontextmenu = () => false;
 
-  change = true // Render at least once, after everything has been set up
+  // Render at least once, after everything has been set up
+  renderer.render(scene, camera); // Better for PDF export
+  // change = true;
+
+  // ---- Rest of the function is an addendum suggested by ChatGPT to ensure
+  // that a rendering is included in PDF exports
+  // // put this near the end of attachTrajectoryPlot, after renderer is created & scene is ready
+  // let printImg = null;
+
+  // function ensurePrintImage() {
+  //   if (!printImg) {
+  //     // optional: bump resolution for sharper PDFs
+  //     // const { clientWidth:w, clientHeight:h } = container;
+  //     // renderer.setSize(w * 2, h * 2, false);
+  //     // renderer.render(scene, camera);
+
+  //     const dataURL = renderer.domElement.toDataURL('image/png');
+  //     printImg = new Image();
+  //     printImg.src = dataURL;
+  //     printImg.style.width = '100%';
+  //     printImg.style.height = 'auto';
+  //     printImg.style.display = 'none';
+  //     container.appendChild(printImg);
+  //   }
+  // }
+
+  // function beforePrint() {
+  //   ensurePrintImage();
+  //   renderer.domElement.style.display = 'none';
+  //   printImg.style.display = '';
+  // }
+
+  // function afterPrint() {
+  //   if (printImg) printImg.style.display = 'none';
+  //   renderer.domElement.style.display = '';
+  // }
+
+  // // works in Chromium
+  // window.addEventListener('beforeprint', beforePrint);
+  // window.addEventListener('afterprint', afterPrint);
+
+  // // extra safety: some engines only fire the matchMedia listener
+  // const mm = window.matchMedia('print');
+  // if (mm && mm.addEventListener) {
+  //   mm.addEventListener('change', (e) => e.matches ? beforePrint() : afterPrint());
+  // }
 }
 
 // -------- old code graveyard
